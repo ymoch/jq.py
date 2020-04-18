@@ -33,6 +33,22 @@ jobs:
         - python3 -m cibuildwheel --output-dir wheelhouse
         - twine check wheelhouse/*
 
+    - name: "Windows wheels"
+      os: windows
+      language: shell
+      before_install:
+        - choco install python --version 3.8.0
+        - export PATH="/c/Python38:/c/Python38/Scripts:$PATH"
+      install:
+        - python -m pip install cibuildwheel==1.3.0 twine virtualenv
+        - python -m pip install cython==0.29.16
+        - cython jq.pyx
+        - python -m pip install requests certifi
+      script:
+        - export CIBW_BEFORE_BUILD='pip install requests certifi'
+        - python -m cibuildwheel --output-dir wheelhouse
+        - twine check wheelhouse/*
+
 install:
   - "make jq.c"
   - "pip install tox"
