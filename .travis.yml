@@ -45,6 +45,5 @@ env:
     # Note: TWINE_PASSWORD is set to a PyPI API token in Travis settings
 
 install:
-  - "make jq.c"
   - "pip install tox"
 script: tox -e py
